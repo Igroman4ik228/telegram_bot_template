@@ -1,0 +1,16 @@
+[project]
+name = "telegram_bot_template"
+version = "1.0"
+description = "A template for building Telegram bots with Clean architecture."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = ["aiogram>=3.22.0", "alembic>=1.16.5", "sqlalchemy>=2.0.43"]
+
+[dependency-groups]
+dev = ["ruff>=0.13.1"]
+
+[tool.black]
+line-length = 80
+
+[tool.ruff]
+line-length = 80
