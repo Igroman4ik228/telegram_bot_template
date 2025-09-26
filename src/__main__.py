@@ -1,5 +1,4 @@
-def main():
-    print("Hello from telegram_bot_template")
+def main() -> None: ...
 
 
 if __name__ == "__main__":
