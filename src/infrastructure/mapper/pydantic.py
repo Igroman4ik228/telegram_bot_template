@@ -8,7 +8,9 @@ class BasePydanticMapper[TEntity: PydanticEntity, TOrm: BaseOrm]:
 
     @classmethod
     def orm(cls, entity: TEntity) -> TOrm:
-        return cls.orm_cls(**entity.model_dump())
+        return cls.orm_cls(
+            **entity.model_dump(exclude_unset=True, exclude_none=True),
+        )
 
     @classmethod
     def entity(cls, orm: TOrm) -> TEntity:
