@@ -1,7 +1,7 @@
 from rodi import Container
 
 from app.interfaces.uow import IUoW
-from app.services.crud.user import UserCrudService
+from app.services.user import UserCrudService
 from infrastructure.database.db import AlchemyDatabase
 from infrastructure.database.uow import AlchemyUoW
 

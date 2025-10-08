@@ -1,6 +1,6 @@
-from app.services.crud.user import UserCrudService
+from app.services.user import UserCrudService
 from container import AppContainer
-from domain.entities.user import UserEntity
+from domain.models.user import UserOrm
 from infrastructure.database.db import AlchemyDatabase
 
 
@@ -13,13 +13,16 @@ class App:
         # Delete this after testing
         self.db.create_tables()
 
-        new_user = UserEntity(username="johndoe", fullname="John Doe")
+        new_user = UserOrm(
+            first_name="John",
+            last_name="Doe",
+        )
 
         self.user_service.register_user(new_user)
 
         retrieved_user = self.user_service.get(1)
         if retrieved_user:
-            print(repr(retrieved_user))  # Output: Hi, John Doe
+            print(retrieved_user.full_name)
 
     def __enter__(self):
         return self

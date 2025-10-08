@@ -3,7 +3,7 @@ from typing import Self
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.interfaces.uow import IUoW
-from infrastructure.database.models.base import BaseOrm
+from domain.models.base import BaseOrm
 from infrastructure.database.repository.factory import AlchemyRepositoryFactory
 
 
@@ -54,6 +54,9 @@ class AlchemyUoW(IUoW):
         if self._session is None:
             msg = "Session is not initialized."
             raise RuntimeError(msg)
+
+        for instance in instances:
+            self._session.merge(instance)
 
         self._session.commit()
 

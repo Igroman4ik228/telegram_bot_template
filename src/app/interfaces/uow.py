@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Self
 
 from app.interfaces.repository.factory import IRepositoryFactory
+from domain.models.base import BaseOrm
 
 
 class IUoW(ABC):
@@ -16,4 +17,4 @@ class IUoW(ABC):
     def __exit__(self, exc_type, exc_val, exc_tb): ...
 
     @abstractmethod
-    def commit(self) -> None: ...
+    def commit(self, *instances: BaseOrm) -> None: ...

@@ -1,19 +1,18 @@
 from app.interfaces.uow import IUoW
-from domain.entities.user import UserEntity
+from domain.models.user import UserOrm
 
 
 class UserCrudService:
     def __init__(self, uow: IUoW):
         self.uow = uow
 
-    def register_user(self, user: UserEntity) -> None:
+    def register_user(self, user: UserOrm) -> None:
         with self.uow as uow:
-            uow.rep.users.create(user)
-            uow.commit()
+            uow.commit(user)
 
         # set Cache
 
-    def get(self, user_id: int) -> UserEntity | None:
+    def get(self, user_id: int) -> UserOrm | None:
         # try to get from Cache
         with self.uow as uow:
             return uow.rep.users.get(user_id)
