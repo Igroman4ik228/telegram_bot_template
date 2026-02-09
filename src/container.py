@@ -12,7 +12,7 @@ class AppContainer(Container):
 
     def register_di(self) -> None:
         self.add_singleton_by_factory(
-            lambda: AlchemyDatabase(),
+            lambda _: AlchemyDatabase(),
             AlchemyDatabase,
         )
         self.add_scoped_by_factory(

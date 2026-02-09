@@ -22,4 +22,4 @@ line-length = 80
 fix = true
 line-length = 80
 lint.select = ["ALL"]
-lint.ignore = ["D", "ANN204"]
+lint.ignore = ["D", "ANN204", "ERA001"]
