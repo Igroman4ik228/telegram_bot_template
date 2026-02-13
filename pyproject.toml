@@ -6,7 +6,9 @@ readme = "README.md"
 requires-python = ">=3.12,<4"
 dependencies = [
   "aiogram>=3.22.0,<4",
+  "aiosqlite>=0.22.1",
   "alembic>=1.16.5,<2",
+  "cashews[redis]>=7.4.4",
   "pydantic>=2.11.9",
   "rodi>=2.0.8",
   "sqlalchemy>=2.0.43,<3",
@@ -22,4 +24,4 @@ line-length = 80
 fix = true
 line-length = 80
 lint.select = ["ALL"]
-lint.ignore = ["D", "ANN204", "ERA001"]
+lint.ignore = ["D", "ANN204", "ERA001", "PLR0913", "FBT"]

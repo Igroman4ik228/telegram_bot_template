@@ -1,40 +1,42 @@
-from app.services.crud.user import UserCrudService
+import asyncio
+from logging import INFO, basicConfig, getLogger
+
+from app.services.user_service import UserService
 from container import AppContainer
-from domain.entities.user import UserEntity
-from infrastructure.database.db import AlchemyDatabase
+from persistence.db.db import DatabaseAlchemy
+from persistence.db.repositories.user import UserRepository
+
+log = getLogger(__name__)
+basicConfig(level=INFO)
 
 
 class App:
     def __init__(self, container: AppContainer):
-        self.db = container.resolve(AlchemyDatabase)
-        self.user_service = container.resolve(UserCrudService)
+        self.db = DatabaseAlchemy()
 
-    def start(self) -> None:
-        # Delete this after testing
-        self.db.create_tables()
+    async def start(self) -> None:
+        await self.db.create_tables()
 
-        new_user = UserEntity(username="johndoe", fullname="John Doe")
+        async with self.db.get_session() as session:
+            rep = UserRepository(session)
+            user = await UserService(rep).register("user1")
 
-        self.user_service.register_user(new_user)
+        log.info(user)
 
-        retrieved_user = self.user_service.get(1)
-        if retrieved_user:
-            print(repr(retrieved_user))  # Output: Hi, John Doe
-
-    def __enter__(self):
+    async def __aenter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.db.close()
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.db.close()
 
 
-def main() -> None:
+async def main() -> None:
     app_container = AppContainer()
     app_container.register_di()
 
-    with App(app_container) as app:
-        app.start()
+    async with App(app_container) as app:
+        await app.start()
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
