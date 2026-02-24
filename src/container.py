@@ -1,6 +1,7 @@
 from rodi import Container
 
 from app.interfaces.uow import IUoW
+from app.services.crud.role import RoleCrudService
 from app.services.crud.user import UserCrudService
 from infrastructure.database.db import AlchemyDatabase
 from infrastructure.database.uow import AlchemyUoW
@@ -21,4 +22,7 @@ class AppContainer(Container):
         )
         self.add_scoped(
             UserCrudService,
+        )
+        self.add_scoped(
+            RoleCrudService,
         )
