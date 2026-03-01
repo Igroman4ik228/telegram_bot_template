@@ -12,6 +12,5 @@ class UserService:
 
     async def register(self, name: str) -> UserOrm:
         user = UserOrm(name=name)
-        log.info(f"До {user}")
-        await self.rep.create(user)
+        await self.rep.save(user)
         return user

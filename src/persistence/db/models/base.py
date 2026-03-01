@@ -1,10 +1,9 @@
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Self
 
-from sqlalchemy import BigInteger, DateTime, SmallInteger, String, func
+from sqlalchemy import BigInteger, DateTime, SmallInteger, String, func, inspect
 from sqlalchemy.orm import (
     DeclarativeBase,
-    MappedAsDataclass,
     mapped_column,
     registry,
 )
@@ -31,7 +30,7 @@ type Str2048 = Annotated[str, 2048]
 type Str8192 = Annotated[str, 8192]
 
 
-class BaseAlchemyOrm(MappedAsDataclass, DeclarativeBase):
+class BaseAlchemyOrm(DeclarativeBase):
     registry = registry(
         type_annotation_map={
             Int16: SmallInteger(),
@@ -44,3 +43,14 @@ class BaseAlchemyOrm(MappedAsDataclass, DeclarativeBase):
             datetime: DateTime(timezone=True),
         },
     )
+
+    def to_dict(self) -> dict:
+        mapper = inspect(self).mapper
+        return {
+            column.key: getattr(self, column.key)
+            for column in mapper.column_attrs
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> Self:
+        return cls(**data)

@@ -6,5 +6,4 @@ class IntPkMixin:
         primary_key=True,
         autoincrement=True,
         index=True,
-        init=False,
     )

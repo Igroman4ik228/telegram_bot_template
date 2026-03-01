@@ -14,7 +14,7 @@ class DatabaseAlchemy:
     def __init__(
         self,
         url: str = "sqlite+aiosqlite:///:memory:",
-        echo: bool = False,
+        echo: bool = True,
     ):
         self._engine = create_async_engine(
             url=url,
